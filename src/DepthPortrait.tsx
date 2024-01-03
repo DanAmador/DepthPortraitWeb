@@ -19,8 +19,8 @@ export interface IPortrait {
   export const DepthPortrait: React.FC<PDepthPortrait> = ({ portraitData, depthExtrusion =1 }) => {
   
     const meshRef = useRef();
-  const rgbTexture = useLoader(THREE.TextureLoader,     `Portraits/${portraitData.name}/${portraitData.color}`);
-  const depthTexture = useLoader(THREE.TextureLoader,   `Portraits/${portraitData.name}/${portraitData.depth}`);
+  const rgbTexture = useLoader(THREE.TextureLoader,     `/Portraits/${portraitData.name}/${portraitData.color}`);
+  const depthTexture = useLoader(THREE.TextureLoader,   `/Portraits/${portraitData.name}/${portraitData.depth}`);
   const [geometry, setGeometry] = useState<THREE.BufferGeometry>();
 
 

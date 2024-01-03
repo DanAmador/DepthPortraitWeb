@@ -2,22 +2,21 @@ import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ShaderMaterial } from 'three';
-export interface PortraitData {
+export interface IPortrait {
     name: string;
-    color: string;
-    depth: string;
+    color?: string;
+    depth?: string;
   }
 
-  export interface DepthPortrait {
+  export interface IDepthPortrait extends IPortrait {
     depthExtrusion: number;
-    color: string;
   }
-  export interface DepthPortraitProps extends DepthPortrait  {
-    portraitData: PortraitData;
+  export interface PDepthPortrait extends IDepthPortrait  {
+    portraitData: IPortrait;
 
   }
   
-  export const DepthPortrait: React.FC<DepthPortraitProps> = ({ portraitData, depthExtrusion =1 }) => {
+  export const DepthPortrait: React.FC<PDepthPortrait> = ({ portraitData, depthExtrusion =1 }) => {
   
     const meshRef = useRef();
   const rgbTexture = useLoader(THREE.TextureLoader,     `Portraits/${portraitData.name}/${portraitData.color}`);

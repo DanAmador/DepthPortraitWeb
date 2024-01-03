@@ -1,12 +1,10 @@
-import { Canvas, Object3DNode, extend, useThree } from "@react-three/fiber";
+import { Object3DNode, extend, useThree } from "@react-three/fiber";
 import "./App.css";
-import { CineonToneMapping } from "three";
-import { Box, PivotControls } from "@react-three/drei";
-import { AdaptiveDpr, OrbitControls, PerspectiveCamera } from '@react-three/drei';
-import { LumaSplatsThree, LumaSplatsSemantics } from "@lumaai/luma-web";
-import { InvisiCube } from "./Invisicube";
+import { AdaptiveDpr, OrbitControls } from '@react-three/drei';
+import { LumaSplatsThree } from "@lumaai/luma-web";
 import { useEffect, useRef } from "react";
 import useCameraTurns from "./useCameraTurns";
+import { InvisiCube } from "./InvisiCube";
 
 // Make LumaSplatsThree available to R3F
 extend({ LumaSplats: LumaSplatsThree });

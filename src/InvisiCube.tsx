@@ -1,12 +1,10 @@
-import { IDepthPortrait, PDepthPortrait, IPortrait, DepthPortrait } from "./DepthPortrait";
+import { IDepthPortrait, IPortrait, DepthPortrait } from "./DepthPortrait";
 import { GlassGlobe } from "./GlassGlobe";
 import { Edges } from "@react-three/drei";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useControls } from "leva";
-import { Mesh } from "three";
+import { useEffect, useRef, useState } from "react";
 import DepthBox from "./DepthBox";
 import { useFrame } from "@react-three/fiber";
-import { Schema } from "leva/dist/declarations/src/types";
+// import { Schema } from "leva/dist/declarations/src/types";
 
 import { useCallback } from 'react';
 
@@ -24,14 +22,14 @@ const portraitData: Record<string, IPortrait> = {
 };
 const colors = ['orange', 'lightblue','lightgreen', 'aquamarine', 'indianred', 'hotpink'];
 
-const cubeRotations: [number, number, number][] = [
-    [0, 0, 0],
-    [0, Math.PI, 0],
-    [0, Math.PI / 2, Math.PI / 2],
-    [0, Math.PI / 2, -Math.PI / 2],
-    [0, -Math.PI / 2, 0],
-    [0, Math.PI / 2, 0]
-];
+// const cubeRotations: [number, number, number][] = [
+//     [0, 0, 0],
+//     [0, Math.PI, 0],
+//     [0, Math.PI / 2, Math.PI / 2],
+//     [0, Math.PI / 2, -Math.PI / 2],
+//     [0, -Math.PI / 2, 0],
+//     [0, Math.PI / 2, 0]
+// ];
 
 const stageRotations: [number, number, number][] = [
     [0, 0, 0],
@@ -71,22 +69,22 @@ export const InvisiCube: React.FC<{halfTurns: number}> = ({halfTurns}) => {
         }
     });
 
-    const createControlSchema = (portraitState: IDepthPortrait[], clickedPortraits: number[]) => {
-        const schema: Schema = {};
-        portraitState.forEach((portrait, index) => {
-            const name = portraitState[index].name;
-            schema[`${name} Depth Extrusion`] = {
-                value: portrait.depthExtrusion,
-                min: 0,
-                max: 10,
-                step: 0.1
-            };
-            // schema[`${name} - Color`] = {
-            //     value: portrait.color
-            // };
-        });
-        return schema;
-    };
+    // const createControlSchema = (portraitState: IDepthPortrait[], clickedPortraits: number[]) => {
+    //     const schema: Schema = {};
+    //     portraitState.forEach((portrait, index) => {
+    //         const name = portraitState[index].name;
+    //         schema[`${name} Depth Extrusion`] = {
+    //             value: portrait.depthExtrusion,
+    //             min: 0,
+    //             max: 10,
+    //             step: 0.1
+    //         };
+    //         // schema[`${name} - Color`] = {
+    //         //     value: portrait.color
+    //         // };
+    //     });
+    //     return schema;
+    // };
     // Recalculate control schema when clickedPortraits changes
     // const controlSchema = useMemo(() => createControlSchema(portraitState, clickedPortraits), [portraitState, clickedPortraits]);
 

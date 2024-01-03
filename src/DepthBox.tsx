@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Euler, Vector3, useThree } from '@react-three/fiber';
+import { Euler, Vector3 } from '@react-three/fiber';
 import { useGLTF, MeshPortalMaterial, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -13,13 +13,13 @@ interface DepthBoxProps {
   position?: Vector3;
 }
 
-export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children, index, onClick, ...props }) => {
+export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children}) => {
   const mesh = useRef<THREE.Mesh>(null);
   const box = useRef<THREE.Mesh>(null);
-  const { nodes } = useGLTF('/aobox-transformed.glb') as GLTF;
+  const { nodes } = useGLTF('/aobox-transformed.glb') as unknown as GLTF & { nodes: Record<string, THREE.Mesh> };
 
 
-  const { camera, raycaster, mouse } = useThree();
+  // const { camera, raycaster, mouse } = useThree();
 
   // const clickHandler = (e) => {
 
@@ -65,7 +65,8 @@ export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children, in
     <Environment preset="forest" background />
     <group>
       <mesh castShadow receiveShadow geometry={nodes.Cube.geometry} ref={box} scale={[4, 4, 4]} position={[0, 0, 3.5]}>
-        <meshStandardMaterial aoMapIntensity={0.3} aoMap={nodes.Cube.material.aoMap} color={bg} />
+        <meshStandardMaterial aoMapIntensity={0.3}  color={bg}/>
+        {/* aoMap={nodes.Cube.materialaoMap} */}
         <spotLight castShadow color={bg} intensity={2} position={[10, 10, 10]} angle={0.15} penumbra={1} shadow-normalBias={0.05} shadow-bias={0.0001} />
       </mesh>
       <mesh castShadow receiveShadow ref={mesh} rotation={[0, 0, 0]}   >

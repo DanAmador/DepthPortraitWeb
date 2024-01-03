@@ -1,6 +1,5 @@
-import { useThree } from '@react-three/fiber';
 import React, { useRef, useEffect } from 'react';
-import { Mesh, MeshPhysicalMaterial, SphereGeometry, FrontSide, MathUtils, MeshPhysicalMaterialParameters, WebGLRenderTarget, CubeTexture } from 'three';
+import { Mesh, FrontSide } from 'three';
 
 type GlassGlobeProps = {
   innerGlobeRadius: number;
@@ -19,7 +18,6 @@ export const GlassGlobe: React.FC<GlassGlobeProps> = ({ innerGlobeRadius}) => {
   return (
     <mesh ref={globeRef}>
       <sphereGeometry args={[1, 32, 32]} />
-      {/* <boxGeometry args={[1, 1, 1]} /> */}
       <meshPhysicalMaterial 
         roughness={0}
         metalness={0}

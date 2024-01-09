@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { IDepthPortrait, IPortrait, DepthPortrait } from "./DepthPortrait";
 import { GlassGlobe } from "./GlassGlobe";
 import { Edges } from "@react-three/drei";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import DepthBox from "./DepthBox";
 import { useFrame } from "@react-three/fiber";
 // import { Schema } from "leva/dist/declarations/src/types";
 
 import { useCallback } from 'react';
 import useCameraTurns from "./useCameraTurns";
+import { useControls } from "leva";
 
 
 
@@ -40,8 +42,8 @@ const stagePositions: [number, number, number][] = [
     [0, .1, -.1],
     [0, .1, .1],
 ]
-export const InvisiCube: React.FC = () => {
- const halfTurns = useCameraTurns();
+// eslint-disable-next-line react/prop-types
+export const InvisiCube: React.FC<{halfTurns:number}> = ({halfTurns}) => {
 
     const [portraitState, setPortrait] = useState<IDepthPortrait[]>([]);
     const clickedRefs = useRef<number[]>([]);
@@ -75,6 +77,7 @@ export const InvisiCube: React.FC = () => {
                 });
             }
         });
+        console.log(sideDataArray);
         setPortrait(sideDataArray);
     }, []);
 
@@ -89,40 +92,51 @@ export const InvisiCube: React.FC = () => {
         }
     });
 
-    // const createControlSchema = (portraitState: IDepthPortrait[], clickedPortraits: number[]) => {
-    //     const schema: Schema = {};
-    //     portraitState.forEach((portrait, index) => {
-    //         const name = portraitState[index].name;
-    //         schema[`${name} Depth Extrusion`] = {
-    //             value: portrait.depthExtrusion,
-    //             min: 0,
-    //             max: 10,
-    //             step: 0.1
-    //         };
-    //         // schema[`${name} - Color`] = {
-    //         //     value: portrait.color
-    //         // };
-    //     });
-    //     return schema;
-    // };
-    // Recalculate control schema when clickedPortraits changes
-    // const controlSchema = useMemo(() => createControlSchema(portraitState, clickedPortraits), [portraitState, clickedPortraits]);
+    // Create a control schema for the current front and back portraits
+    const controlSchema = useMemo(() => {
+        const schema = {};
+    
+        // Ensure portraitState has elements
+        if (portraitState.length > 0) {
+            const saveSchema= (portraitData: IDepthPortrait) => {
+                if(portraitData){
 
+                    schema[`${portraitData.name} Depth Extrusion`] = {
+                        value: portraitData.depthExtrusion ?? 1,
+                        min: 0,
+                        max: 10,
+                        step: 0.1,
+                    };
+                    schema[`${portraitData.name} Color`] = portraitData.color ?? "pink";
+                }
+            } 
+            const frontPortraitData = portraitState[frontPortrait % portraitState.length];
+            const backPortraitData = portraitState[backPortrait % portraitState.length];
+            saveSchema(frontPortraitData);
+            saveSchema(backPortraitData);
+        }
+    
+        return schema;
+    }, [frontPortrait, backPortrait, portraitState]);
+    
+    const controls = useControls(controlSchema, [frontPortrait, backPortrait]);
+    
+    useEffect(() => {
+        // Check if portraitState has elements
+        if (portraitState.length > 0) {
+            setPortrait(prevState => prevState.map((portrait, index) => {
+                const portraitIdx = index % portraitState.length;
+                const portraitData = portraitState[portraitIdx];
+                if(portraitData){
 
-    // const controls = useControls(controlSchema);
-    // useEffect(() => {
-    //     const updatedPortraits = portraitState.map((portrait, index) => ({
-    //         ...portrait,
-    //         depthExtrusion: controls[`Portrait ${index + 1} - Depth Extrusion`] as number,
-    //         color: controls[`Portrait ${index + 1} - Color`] as string
-    //     }));
+                    return { ...portrait, depthExtrusion: controls[`${portraitData.name} Depth Extrusion`],
+                     color: controls[`${portraitData.name} Color`] };
+                }
 
-    //     // I do not know why but the controls are only shown if the typescript file is saved
-    //     if (updatedPortraits.length != 0) {
-    //         setPortrait(updatedPortraits);
-
-    //     }
-    // }, [controls]); // Depend only on controls
+                 
+            }));
+        }
+    }, [controls, frontPortrait, backPortrait, portraitState.length]);
 
     // Inside your component
     const buildPlane = useCallback((index: number, side : "front" | "back") => {

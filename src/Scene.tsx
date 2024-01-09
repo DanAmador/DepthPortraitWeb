@@ -18,11 +18,10 @@ declare module '@react-three/fiber' {
 function Scene() {
   const { scene, gl } = useThree();
   const lumaSplatRef = useRef<LumaSplatsThree>(null);
- const halfTurns = useCameraTurns();
   useEffect(() => {
     if (lumaSplatRef.current) {
       // Assuming lumaSplatRef.current has a method captureCubemap
-      lumaSplatRef.current.captureCubemap(gl).then((cubemap) => {
+      void lumaSplatRef.current.captureCubemap(gl).then((cubemap) => {
         // scene.environment = cubemap;
         scene.background = cubemap;
       });
@@ -32,7 +31,7 @@ function Scene() {
   return <>
     <AdaptiveDpr pixelated />
     <OrbitControls makeDefault />
-    <InvisiCube halfTurns={halfTurns}/>
+    <InvisiCube/>
     <lumaSplats
       ref={lumaSplatRef}
 

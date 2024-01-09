@@ -7,6 +7,7 @@ import { useFrame } from "@react-three/fiber";
 // import { Schema } from "leva/dist/declarations/src/types";
 
 import { useCallback } from 'react';
+import useCameraTurns from "./useCameraTurns";
 
 
 
@@ -39,10 +40,29 @@ const stagePositions: [number, number, number][] = [
     [0, .1, -.1],
     [0, .1, .1],
 ]
-export const InvisiCube: React.FC<{halfTurns: number}> = ({halfTurns}) => {
+export const InvisiCube: React.FC = () => {
+ const halfTurns = useCameraTurns();
+
     const [portraitState, setPortrait] = useState<IDepthPortrait[]>([]);
     const clickedRefs = useRef<number[]>([]);
     const [clickedPortraits, setClickedPortraits] = useState<number[]>([]);
+    const [frontPortrait, setFrontPortrait] = useState<number>();
+    const [backPortrait, setBackPortrait] = useState<number>();
+
+    useEffect(() => {
+        const totalPortraits = Object.keys(portraitData).length;
+
+        // Calculate the index offset every time a full turn (2 half turns) is completed
+        const offset = Math.floor(halfTurns / 2) * 2;
+      
+        // Determine the indices for the front and back DepthBoxes
+        const frontIndex = offset % totalPortraits;
+        const backIndex = (frontIndex + 1) % totalPortraits;
+
+        setFrontPortrait(frontIndex)
+        setBackPortrait(backIndex)
+
+    },[halfTurns]);
 
     useEffect(() => {
         const sideDataArray: IDepthPortrait[] = [];
@@ -105,41 +125,32 @@ export const InvisiCube: React.FC<{halfTurns: number}> = ({halfTurns}) => {
     // }, [controls]); // Depend only on controls
 
     // Inside your component
-    const buildPlane = useCallback((planeSide: "front" | "back") => {
-        const totalPortraits = Object.keys(portraitData).length;
-    
-        // Calculate the index offset every time a full turn (2 half turns) is completed
-        const offset = Math.floor(halfTurns / 2) * 2;
-    
-        // Determine the indices for the front and back DepthBoxes
-        const frontIndex = offset % totalPortraits;
-        const backIndex = (frontIndex + 1) % totalPortraits;
-    console.log(frontIndex, backIndex, portraitState);
-        // Select the portraits for front and back
-        const frontPortrait = portraitState[frontIndex];
-        const backPortrait = portraitState[backIndex];
-    
-        const isFront = planeSide === "front";
-        const selectedPortrait = isFront ? frontPortrait : backPortrait;
-        const selectedIndex = isFront ? frontIndex : backIndex;
+    const buildPlane = useCallback((index: number, side : "front" | "back") => {
+        const portraitIdx = index % portraitState.length;
+        const selectedPortrait = portraitState[portraitIdx];
+        const sideIdx = side === "front" ? 0 : 1; 
         return (
-            <mesh castShadow receiveShadow key={`mesh-${planeSide}`} position={stagePositions[isFront ? 0 : 1]} rotation={stageRotations[isFront ? 0 : 1]}>
+            <mesh castShadow receiveShadow key={`mesh-${index}-${side}`} 
+            // eslint-disable-next-line react/no-unknown-property
+            position={stagePositions[sideIdx]} rotation={stageRotations[sideIdx]}>
                 <planeGeometry args={[3, 3, 3]} />
                 <Edges />
                 {selectedPortrait && (
-                    <DepthBox key={`${planeSide}-${selectedIndex}`} bg={selectedPortrait.color} index={selectedIndex} onClick={clickHandler} position={stagePositions[isFront ? 0 : 1]}>
-                        {clickedPortraits.includes(selectedIndex) && <GlassGlobe innerGlobeRadius={2} />}
+                    <DepthBox key={`depthbox-${index}`} bg={selectedPortrait.color} index={index} onClick={clickHandler} position={stagePositions[sideIdx]}>
+                        {clickedPortraits.includes(index) && <GlassGlobe innerGlobeRadius={2} />}
                         <DepthPortrait {...selectedPortrait} portraitData={portraitData[selectedPortrait.name]} />
                     </DepthBox>
                 )}
             </mesh>
         );
-    }, [halfTurns, portraitState, portraitData, stagePositions, stageRotations, clickHandler]);
-    
+    }, [portraitState, clickedPortraits]);
+    // console.log(`front ${frontPortrait} back ${backPortrait} size ${portraitState.length}`);
+
     return (
         <>
-            {buildPlane("front")}
-            {buildPlane("back")}
+            {buildPlane(backPortrait, "back")}
+            {buildPlane(frontPortrait, "front")}
+            {/* {buildPlane(backPortrait)} */}
             {/* {buildPlane(1)} */}
         </>
 

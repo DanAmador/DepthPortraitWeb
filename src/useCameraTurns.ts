@@ -9,7 +9,6 @@ const useCameraTurns = (azimuth) => {
     const [accumulatedTheta, setAccumulatedTheta] = useState(Math.PI / 2);
     useFrame(() => {
 
-        // Calculate the number of half turns
             setRealHalfTurns( azimuth/ Math.PI * .5);
             setHalfTurns(Math.abs(Math.floor(realHalfTurns)));
             setPrevTheta(currentTheta);
@@ -22,7 +21,7 @@ const useCameraTurns = (azimuth) => {
                 controls.removeEventListener('change', updateTheta);
             }
         };
-    }, [controls]); // Include controls in the dependency array
+    }, [controls]); 
     return halfTurns;
 };
 

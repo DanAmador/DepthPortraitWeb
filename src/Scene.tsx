@@ -31,7 +31,7 @@ function Scene() {
       label: 'rotate theta',
       opts: {
         '+45º': () => cameraControlsRef.current?.rotate(45 * DEG2RAD, 0, true),
-        '-90º': () => cameraControlsRef.current?.rotate(-90 * DEG2RAD, 0, true),
+        '-90º': () => cameraControlsRef.current?.rotate(-180 * DEG2RAD, 0, true),
         '+360º': () => cameraControlsRef.current?.rotate(360 * DEG2RAD, 0, true)
       }
     }),

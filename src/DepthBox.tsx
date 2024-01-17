@@ -64,7 +64,7 @@ export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children}) =
     <ambientLight intensity={0.1} />
     <Environment preset="forest" background />
     <group>
-      <mesh castShadow receiveShadow geometry={nodes.Cube.geometry} ref={box} scale={[4, 4, 4]} position={[0, 0, 3.5]}>
+      <mesh castShadow receiveShadow geometry={nodes.Cube.geometry} ref={box} scale={[4, 4, 10]} position={[0, 0, 3.5]} rotation={[0,-Math.PI / 2,0 ]}>
         <meshStandardMaterial aoMapIntensity={0.3}  color={bg}/>
         {/* aoMap={nodes.Cube.materialaoMap} */}
         <spotLight castShadow color={bg} intensity={2} position={[10, 10, 10]} angle={0.15} penumbra={1} shadow-normalBias={0.05} shadow-bias={0.0001} />

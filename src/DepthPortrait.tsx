@@ -2,6 +2,7 @@ import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ShaderMaterial } from 'three';
+import useLoadTextures from './useLoadTextures';
 export interface IPortrait {
     name: string;
     color?: string;
@@ -19,8 +20,11 @@ export interface IPortrait {
   export const DepthPortrait: React.FC<PDepthPortrait> = ({ portraitData, depthExtrusion =1 }) => {
   
     const meshRef = useRef();
-  const rgbTexture = useLoader(THREE.TextureLoader,     `/Portraits/${portraitData.name}/${portraitData.color}`);
-  const depthTexture = useLoader(THREE.TextureLoader,   `/Portraits/${portraitData.name}/${portraitData.depth}`);
+    useLoadTextures(portraitData);
+    // const { rgbTexture, depthTexture } = useLoadTextures(portraitData);
+  const prefix =  `./src/assets/Portraits/${portraitData.name}/`;
+  const rgbTexture = useLoader(THREE.TextureLoader,     `${prefix}/${portraitData.color}.png`);
+  const depthTexture = useLoader(THREE.TextureLoader,   `${prefix}/${portraitData.depth}.png`);
   const [geometry, setGeometry] = useState<THREE.BufferGeometry>();
 
 

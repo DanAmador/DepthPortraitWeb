@@ -14,14 +14,14 @@ import { useControls } from "leva";
 
 
 const portraitData: Record<string, IPortrait> = {
-    "DigitalSoul": { name: "DigitalSoul", color: "DigitalSoul.png", depth: "depth_DigitalSoul.png" },
-    "GrayMan": { name: "GrayMan", color: "grey.png", depth: "depth_grey.png" },
-    "Hands": { name: "Hands", color: "hands.png", depth: "depth_hands.png" },
-    "Obelisk": { name: "Obelisk", color: "obelisk.png", depth: "depth_obelisk.png" },
-    "LineMan": { name: "LineMan", color: "line.png", depth: "depth_line.png" },
-    "Road": { name: "Road", color: "Road.png", depth: "depth_Road.png" },
-    // "RoboWorld": { name: "RoboWorld", color: "RoboWorld.png", depth: "depth_RoboWorld.png" },
-    "Skull": { name: "Skull", color: "skull.png", depth: "depth_skull.png" }
+    "DigitalSoul": { name: "DigitalSoul", color: "DigitalSoul", depth: "depth_DigitalSoul" },
+    "GrayMan": { name: "GrayMan", color: "grey", depth: "depth_grey" },
+    "Hands": { name: "Hands", color: "hands", depth: "depth_hands" },
+    "Obelisk": { name: "Obelisk", color: "obelisk", depth: "depth_obelisk" },
+    "LineMan": { name: "LineMan", color: "line", depth: "depth_line" },
+    "Road": { name: "Road", color: "Road", depth: "depth_Road" },
+    // "RoboWorld": { name: "RoboWorld", color: "RoboWorld", depth: "depth_RoboWorld" },
+    "Skull": { name: "Skull", color: "skull", depth: "depth_skull" }
 };
 const colors = ['orange', 'lightblue','lightgreen', 'aquamarine', 'indianred', 'hotpink'];
 
@@ -50,7 +50,7 @@ export const InvisiCube: React.FC<{halfTurns:number}> = ({halfTurns}) => {
     const [clickedPortraits, setClickedPortraits] = useState<number[]>([]);
     const [frontPortrait, setFrontPortrait] = useState<number>();
     const [backPortrait, setBackPortrait] = useState<number>();
-
+    
     useEffect(() => {
         const totalPortraits = Object.keys(portraitData).length;
 

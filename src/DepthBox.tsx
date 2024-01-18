@@ -16,7 +16,7 @@ interface DepthBoxProps {
 export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children}) => {
   const mesh = useRef<THREE.Mesh>(null);
   const box = useRef<THREE.Mesh>(null);
-  const { nodes } = useGLTF('/aobox-transformed.glb') as unknown as GLTF & { nodes: Record<string, THREE.Mesh> };
+  const { nodes } = useGLTF('./aobox-transformed.glb') as unknown as GLTF & { nodes: Record<string, THREE.Mesh> };
 
 
   // const { camera, raycaster, mouse } = useThree();

@@ -10,7 +10,7 @@ export default defineConfig({
 
     copy({
       targets: [
-        { src: 'public/**/*', dest: 'dist/Portraits' },
+        { src: 'public/**/*', dest: 'assets' },
         // You can add more objects to the array to copy additional files or directories
       ],
       hook: 'writeBundle' // default

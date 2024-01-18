@@ -6,6 +6,8 @@ on:
       - main  # Set this to the default branch of your repo
 permissions:
   contents: write
+  pages: write  # If you're using a custom branch for GitHub Pages, ensure to add this.
+
 jobs:
 
   build-and-deploy:
@@ -28,7 +30,9 @@ jobs:
       run: yarn run build
 
     - name: Copy public folder to assets
-      run: cp -R public/* dist/assets/
+      run: |
+        mkdir -p dist/assets
+        cp -R public/* dist/assets/
 
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@releases/v4

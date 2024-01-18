@@ -8,7 +8,6 @@ import { useFrame } from "@react-three/fiber";
 // import { Schema } from "leva/dist/declarations/src/types";
 
 import { useCallback } from 'react';
-import useCameraTurns from "./useCameraTurns";
 import { useControls } from "leva";
 
 

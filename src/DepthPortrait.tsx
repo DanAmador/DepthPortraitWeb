@@ -22,7 +22,7 @@ export interface IPortrait {
     const meshRef = useRef();
     useLoadTextures(portraitData);
     // const { rgbTexture, depthTexture } = useLoadTextures(portraitData);
-  const prefix =  `./src/assets/Portraits/${portraitData.name}/`;
+  const prefix =  `./Portraits/${portraitData.name}/`;
   const rgbTexture = useLoader(THREE.TextureLoader,     `${prefix}/${portraitData.color}.png`);
   const depthTexture = useLoader(THREE.TextureLoader,   `${prefix}/${portraitData.depth}.png`);
   const [geometry, setGeometry] = useState<THREE.BufferGeometry>();

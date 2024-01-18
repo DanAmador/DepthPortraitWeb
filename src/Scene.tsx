@@ -23,7 +23,10 @@ function Scene() {
   const { scene, gl } = useThree();
   const lumaSplatRef = useRef<LumaSplatsThree>(null);
   const cameraControlsRef = useRef<CameraControlsImpl>()
-  console.log("hello gh pages");
+  useEffect(() => {
+    console.log("hello gh pages");
+    
+  }, []);
   // const { DEG2RAD } = THREE.MathUtils
   // const { camera } = useThree()
 

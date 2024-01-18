@@ -1,19 +1,17 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
 import {copy} from 'vite-plugin-copy';
 
 export default defineConfig({
   base: process.env.NODE_ENV === 'production' ? '/DepthPortraitWeb/' : '/',
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  plugins: [react(),
-
+  plugins: [
+    react(),
     copy({
       targets: [
-        { src: 'public/**/*', dest: 'assets' },
-        // You can add more objects to the array to copy additional files or directories
+        { src: 'public/*', dest: 'assets' },
       ],
-      hook: 'writeBundle' // default
-    })
+      hook: 'writeBundle', // or 'closeBundle' depending on your needs
+    }),
+    // ... other plugins
   ],
 });

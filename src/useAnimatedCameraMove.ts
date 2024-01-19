@@ -5,7 +5,7 @@ import { useSpring } from 'react-spring';
 import * as THREE from 'three';
 
 export const useAnimatedCameraMove = (cameraControlsRef: MutableRefObject<CameraControls>) => {
-  const { camera, scene } = useThree();
+  const { camera } = useThree();
   const [spring, api] = useSpring(() => ({
     t: 0,
     config: { mass: 1, tension: 170, friction: 26 },

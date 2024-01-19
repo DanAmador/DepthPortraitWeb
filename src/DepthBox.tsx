@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import { Euler, Vector3, useThree } from '@react-three/fiber';
-import { useGLTF, MeshPortalMaterial, Environment } from '@react-three/drei';
+import { Euler, Vector3 } from '@react-three/fiber';
+import { useGLTF, MeshPortalMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -19,7 +19,7 @@ export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children, po
   const box = useRef<THREE.Mesh>(null);
   const { nodes } = useGLTF('/aobox-transformed.glb') as unknown as GLTF & { nodes: Record<string, THREE.Mesh> };
 
-  const lightRef = useRef<THREE.DirectionalLight>();
+  const lightRef = useRef<THREE.SpotLight>();
 
   // const { camera, raycaster, mouse } = useThree();
 
@@ -81,7 +81,7 @@ export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children, po
           ref={box} scale={[boxScale * clampedDepth, boxScale, boxScale]} position={[0, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
           <meshStandardMaterial
             aoMapIntensity={0.3}
-            aoMap={nodes.Cube.materialaoMap}
+            // eslint-disable-next-line react/no-unknown-property
 
             color={"white"}
           />

@@ -10,7 +10,6 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
-import { CineonToneMapping } from "three";
 import { Canvas } from "@react-three/fiber";
 
 ReactDOM.createRoot(document.querySelector("#root")!).render(

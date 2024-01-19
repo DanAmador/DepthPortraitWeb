@@ -37,8 +37,8 @@ const stageRotations: [number, number, number][] = [
     [0, Math.PI, 0]
 ]
 const stagePositions: [number, number, number][] = [
-    [0, .1, 0],
-    [0, .1, 0],
+    [-.1, .1, 0],
+    [-.1, .1, 0],
 ]
 // eslint-disable-next-line react/prop-types
 export const PortraitStage: React.FC<{ halfTurns: number }> = ({ halfTurns }) => {

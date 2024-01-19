@@ -141,11 +141,11 @@ function Scene() {
   useEffect(() => {
     if (lumaSplatRef.current) {
       // Assuming lumaSplatRef.current has a method captureCubemap
-      // lumaSplatRef.current.material.transparent = false;
-      void lumaSplatRef.current.captureCubemap(gl).then((cubemap) => {
-        scene.environment = null;
-        scene.background = null;
-      });
+      scene.environment = null;
+      scene.background = null;
+      // void lumaSplatRef.current.captureCubemap(gl).then((cubemap) => {
+      // // lumaSplatRef.current.material.transparent = false;
+      // });
     }
   }, [gl, scene]);
 

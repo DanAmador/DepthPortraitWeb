@@ -5,7 +5,7 @@ import "./App.css";
 import { AdaptiveDpr, CameraControls } from '@react-three/drei';
 import { LumaSplatsThree } from "@lumaai/luma-web";
 import { useEffect, useRef, useState } from "react";
-import { InvisiCube } from "./InvisiCube";
+import { PortraitStage } from "./PortraitStage";
 import CameraControlsImpl from 'camera-controls';
 // import { useControls, button, buttonGroup, folder } from 'leva'
 // import * as THREE from 'three'
@@ -161,7 +161,7 @@ function Scene() {
         />
     {/* <CameraControls makeDefault /> */}
     {/* <OrbitControls makeDefault /> */}
-    <InvisiCube halfTurns={halfTurns} />
+    <PortraitStage halfTurns={halfTurns} />
     <lumaSplats
       ref={lumaSplatRef}
 
@@ -170,7 +170,8 @@ function Scene() {
       position={[-.5, 0, .06]}
       scale={[2, 2, 2]}
       rotation={[0,-.09,0]}
-      source='https://lumalabs.ai/capture/2f4a6b64-f0bd-4e3e-a41a-c3aec8b96517' />
+      source='https://lumalabs.ai/capture/2f4a6b64-f0bd-4e3e-a41a-c3aec8b96517' 
+      />
   </>
 }
 

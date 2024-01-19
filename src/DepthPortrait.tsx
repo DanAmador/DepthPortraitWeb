@@ -63,7 +63,7 @@ export interface IPortrait {
       fragmentShader,
       side: THREE.FrontSide,
     });
-  }, [portraitData, depthExtrusion]); // Add depthExtrusion to the dependency array
+  }, [rgbTexture, depthTexture, depthExtrusion]); // Add depthExtrusion to the dependency array
 
   // Plane geometry setup
   useEffect(() => {
@@ -72,7 +72,9 @@ export interface IPortrait {
   }, []);
 
   return (
-    <mesh ref={meshRef} geometry={geometry} material={customMaterial} position={[0,0,-.5 * depthExtrusion]}>
+    <mesh castShadow receiveShadow ref={meshRef} geometry={geometry} 
+    material={customMaterial} position={[0,0,-.5 * depthExtrusion]}>
+
     </mesh>
   );
 };

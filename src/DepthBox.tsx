@@ -16,7 +16,7 @@ interface DepthBoxProps {
 export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children}) => {
   const mesh = useRef<THREE.Mesh>(null);
   const box = useRef<THREE.Mesh>(null);
-  const { nodes } = useGLTF('./aobox-transformed.glb') as unknown as GLTF & { nodes: Record<string, THREE.Mesh> };
+  const { nodes } = useGLTF('/aobox-transformed.glb') as unknown as GLTF & { nodes: Record<string, THREE.Mesh> };
 
 
   // const { camera, raycaster, mouse } = useThree();
@@ -61,8 +61,7 @@ export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children}) =
   //   }
   // };
   return <MeshPortalMaterial blur={0.5}>
-    <ambientLight intensity={0.1} />
-    <Environment preset="forest" background />
+    {/* <Environment preset="forest" background /> */}
     <group>
       <mesh castShadow receiveShadow geometry={nodes.Cube.geometry} ref={box} scale={[4, 4, 15]} position={[0, 0, -5]} rotation={[0,-Math.PI / 2,0 ]}>
         <meshStandardMaterial aoMapIntensity={0.3}  color={bg}/>
@@ -71,7 +70,6 @@ export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children}) =
       </mesh>
       <mesh castShadow receiveShadow ref={mesh} rotation={[0, 0, 0]}   >
         {children}
-        <meshStandardMaterial color={bg} />
       </mesh>
     </group>
   </MeshPortalMaterial>

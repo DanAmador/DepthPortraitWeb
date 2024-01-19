@@ -61,7 +61,7 @@ export interface IPortrait {
       },
       vertexShader,
       fragmentShader,
-      side: THREE.DoubleSide
+      side: THREE.FrontSide,
     });
   }, [portraitData, depthExtrusion]); // Add depthExtrusion to the dependency array
 

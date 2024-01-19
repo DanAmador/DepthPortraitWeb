@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.querySelector("#root")!).render(
       <ThemeProvider theme={theme}>
         <Canvas shadows gl={{
           antialias: false,
-          toneMapping: CineonToneMapping,
+          // toneMapping: CineonToneMapping,
           alpha: true
           
         }}

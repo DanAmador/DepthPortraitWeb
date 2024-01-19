@@ -38,7 +38,7 @@ const stageRotations: [number, number, number][] = [
     [0, Math.PI, 0]
 ]
 const stagePositions: [number, number, number][] = [
-    [0, .1, -.1],
+    [0, .1, -.2],
     [0, .1, .1],
 ]
 // eslint-disable-next-line react/prop-types
@@ -143,13 +143,12 @@ export const InvisiCube: React.FC<{halfTurns:number}> = ({halfTurns}) => {
         const selectedPortrait = portraitState[portraitIdx];
         const sideIdx = side === "front" ? 0 : 1; 
         return (
-            <mesh castShadow receiveShadow key={`mesh-${index}-${side}`} 
+            <mesh  key={`mesh-${index}-${side}`} 
             // eslint-disable-next-line react/no-unknown-property
             position={stagePositions[sideIdx]} rotation={stageRotations[sideIdx]}>
                 <planeGeometry args={[3, 3, 3]} />
-                <Edges />
                 {selectedPortrait && (
-                    <DepthBox key={`depthbox-${index}`} bg={selectedPortrait.color} index={index} onClick={clickHandler} position={stagePositions[sideIdx]}>
+                    <DepthBox key={`depthbox-${index}`} bg={"transparent"} index={index} onClick={clickHandler} position={stagePositions[sideIdx]}>
                         {clickedPortraits.includes(index) && <GlassGlobe innerGlobeRadius={2} />}
                         <DepthPortrait {...selectedPortrait} portraitData={portraitData[selectedPortrait.name]} />
                     </DepthBox>

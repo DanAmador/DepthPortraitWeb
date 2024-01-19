@@ -79,11 +79,7 @@ export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children, po
       <group>
         <mesh receiveShadow geometry={nodes.Cube.geometry}
           ref={box} scale={[boxScale * clampedDepth, boxScale, boxScale]} position={[0, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
-          <meshStandardMaterial
-            aoMapIntensity={0.3}
-            // eslint-disable-next-line react/no-unknown-property
-
-            color={"white"}
+          <meshStandardMaterial aoMapIntensity={0.3} color={"white"}
           />
 
           {/* <meshPhysicalMaterial metalnessMap={nodes.Cube.materialaoMap} /> */}
@@ -93,7 +89,7 @@ export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children, po
             ref={lightRef}
             position={[Math.max(clampedDepth, 1), Math.max(1 - Math.sqrt(clampedDepth), 0), 0]} />
         </mesh>
-        <mesh castShadow receiveShadow ref={meshRef}    >
+        <mesh castShadow receiveShadow ref={meshRef}   position={[0, 0,1-Math.sqrt(clampedDepth)]} >
           {children}
         </mesh>
       </group>
@@ -101,24 +97,6 @@ export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children, po
   </mesh>
 
 };
-//   return (
-//     <MeshPortalMaterial attach={`material-${index}`} blur={0.5}>
-//       <ambientLight intensity={0.5} />
-//       <Environment preset="city" />
-//       {/* <group rotation={rotation} position={position} > */}
-//       <group  >
 
-//         {/* <mesh castShadow receiveShadow geometry={nodes.Cube.geometry} ref={box} scale={[1, 1, 1]} >
-//           <meshStandardMaterial aoMapIntensity={1} aoMap={nodes.Cube.material.aoMap} color={bg} />
-//           <spotLight castShadow color={bg} intensity={2} position={[10, 10, 10]} angle={0.15} penumbra={1} shadow-normalBias={0.05} shadow-bias={0.0001} />
-//         </mesh> */}
-//         <mesh castShadow receiveShadow ref={mesh} rotation={[0, 3.14 / 2, 0]}   >
-//           {children}
-//           <meshStandardMaterial color={bg} />
-//         </mesh>
-//       </group>
-//     </MeshPortalMaterial>
-//   );
-// };
 
 export default DepthBox;

@@ -7,6 +7,8 @@ import { LumaSplatsThree } from "@lumaai/luma-web";
 import { useEffect, useRef, useState } from "react";
 import { PortraitStage } from "./PortraitStage";
 import CameraControlsImpl from 'camera-controls';
+import { useAnimatedCameraMove } from "./useAnimatedCameraMove";
+import { useControls, button } from "leva";
 // import { useControls, button, buttonGroup, folder } from 'leva'
 // import * as THREE from 'three'
 
@@ -148,8 +150,19 @@ function Scene() {
       // });
     }
   }, [gl, scene]);
+  const {setVariables} = useAnimatedCameraMove(cameraControlsRef);
+  useEffect(() => {
+    window.setPosition = setVariables;
+  },[])
+  // const {startMovingCamera } = useControls({
+  //   'Camera Movement': 
 
+  //     moveCamera: button(() => {
+  //       window.lerpCam();
+  //   }),
+  // });
   return <>
+
     <AdaptiveDpr pixelated />
     <CameraControls
           ref={cameraControlsRef}
@@ -163,7 +176,7 @@ function Scene() {
     {/* <OrbitControls makeDefault /> */}
     <PortraitStage halfTurns={halfTurns} />
     <lumaSplats
-      ref={lumaSplatRef}
+      ref={lumaSplatRef}whj
 
       // semanticsMask={LumaSplatsSemantics.FOREGROUND}
 

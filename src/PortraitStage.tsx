@@ -12,6 +12,7 @@ import { useControls } from "leva";
 
 
 const portraitData: Record<string, IPortrait> = {
+    "Gadze": { name: "Gadze", color: "Agadze", depth: "depth_gadze" },
     "DigitalSoul": { name: "DigitalSoul", color: "DigitalSoul", depth: "depth_DigitalSoul" },
     "GrayMan": { name: "GrayMan", color: "grey", depth: "depth_grey" },
     "Hands": { name: "Hands", color: "hands", depth: "depth_hands" },
@@ -118,7 +119,7 @@ export const PortraitStage: React.FC<{ halfTurns: number }> = ({ halfTurns }) =>
     }, [frontPortrait, backPortrait, portraitState]);
 
     const controls = useControls(controlSchema, [frontPortrait, backPortrait]);
-
+    
     useEffect(() => {
         // Check if portraitState has elements
         if (portraitState.length > 0) {

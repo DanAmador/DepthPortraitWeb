@@ -48,8 +48,9 @@ export interface IPortrait {
       uniform sampler2D rgbTexture;
 
       void main() {
-        vec3 color = texture2D(rgbTexture, vUv).rgb;
-        gl_FragColor = vec4(color, 1.0);
+        vec4 color = texture2D(rgbTexture, vUv).rgba;
+        if(color.a == 0.0){ discard; };
+        gl_FragColor = color;
       }
     `;
 

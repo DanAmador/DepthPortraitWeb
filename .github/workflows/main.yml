@@ -26,19 +26,19 @@ jobs:
     - name: Install Dependencies
       run: yarn install
 
-    - name: Build Project
-      run: yarn run build
+    - name: Build deploy
+      run: yarn run deploy
 
     - name: Copy public folder to assets
       run: |
         mkdir -p dist/assets
         cp -R public/* dist/assets/
 
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@releases/v4
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Deploy to GitHub Pages
+    #   uses: JamesIves/github-pages-deploy-action@releases/v4
+    #   with:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-        branch: gh-pages  # The branch the action should deploy to.
-        folder: dist      # The folder the action should deploy.
-        clean: false       # Automatically remove deleted files from the deployment
+    #     branch: gh-pages  # The branch the action should deploy to.
+    #     folder: dist      # The folder the action should deploy.
+    #     clean: false       # Automatically remove deleted files from the deployment

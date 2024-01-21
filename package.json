@@ -9,7 +9,8 @@
     "start": "vite --open",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write \"./**/*.ts\"  \"./**/*.tsx\"  \"./**/*.css\" \"./**/*.html\"",
-    "build": "tsc && vite build",
+    "generate-list": "node generatePortraitList.js",
+    "build": "npm run generate-list && tsc && vite build",
     "preview": "vite preview",
     "deploy": "yarn run build && gh-pages -d dist"
   },

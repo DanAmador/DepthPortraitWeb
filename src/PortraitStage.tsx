@@ -1,37 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { IDepthPortrait, IPortrait, DepthPortrait } from "./DepthPortrait";
+import { IDepthPortrait, DepthPortrait } from "./DepthPortrait";
 import { GlassGlobe } from "./GlassGlobe";
 import { useEffect, useMemo, useRef, useState } from "react";
 import DepthBox from "./DepthBox";
 import { useFrame } from "@react-three/fiber";
-// import { Schema } from "leva/dist/declarations/src/types";
 
 import { useCallback } from 'react';
 import { useControls } from "leva";
+import { portraitsList } from './portraitsList';
 
 
 
-const portraitData: Record<string, IPortrait> = {
-    "Gadze": { name: "Gadze", color: "Agadze", depth: "depth_gadze" },
-    "DigitalSoul": { name: "DigitalSoul", color: "DigitalSoul", depth: "depth_DigitalSoul" },
-    "GrayMan": { name: "GrayMan", color: "grey", depth: "depth_grey" },
-    "Hands": { name: "Hands", color: "hands", depth: "depth_hands" },
-    "Obelisk": { name: "Obelisk", color: "obelisk", depth: "depth_obelisk" },
-    "LineMan": { name: "LineMan", color: "line", depth: "depth_line" },
-    "Road": { name: "Road", color: "Road", depth: "depth_Road" },
-    // "RoboWorld": { name: "RoboWorld", color: "RoboWorld", depth: "depth_RoboWorld" },
-    "Skull": { name: "Skull", color: "skull", depth: "depth_skull" }
-};
 const colors = ['orange', 'lightblue', 'lightgreen', 'aquamarine', 'indianred', 'hotpink'];
-
-// const cubeRotations: [number, number, number][] = [
-//     [0, 0, 0],
-//     [0, Math.PI, 0],
-//     [0, Math.PI / 2, Math.PI / 2],
-//     [0, Math.PI / 2, -Math.PI / 2],
-//     [0, -Math.PI / 2, 0],
-//     [0, Math.PI / 2, 0]
-// ];
 
 const stageRotations: [number, number, number][] = [
     [0, 0, 0],
@@ -51,32 +30,21 @@ export const PortraitStage: React.FC<{ halfTurns: number }> = ({ halfTurns }) =>
     const [backPortrait, setBackPortrait] = useState<number>();
 
     useEffect(() => {
-        const totalPortraits = Object.keys(portraitData).length;
-
-        // Calculate the index offset every time a full turn (2 half turns) is completed
+        const totalPortraits = portraitsList.length;
         const offset = Math.floor(halfTurns / 2) * 2;
-
-        // Determine the indices for the front and back DepthBoxes
         const frontIndex = offset % totalPortraits;
         const backIndex = (frontIndex + 1) % totalPortraits;
-
-        setFrontPortrait(frontIndex)
-        setBackPortrait(backIndex)
-
+        setFrontPortrait(frontIndex);
+        setBackPortrait(backIndex);
     }, [halfTurns]);
 
     useEffect(() => {
-        const sideDataArray: IDepthPortrait[] = [];
-        Object.keys(portraitData).forEach((key, i) => {
-            if (i < colors.length) {
-                sideDataArray.push({
-                    color: colors[i],
-                    depthExtrusion: 1,
-                    name: key
-                });
-            }
-        });
-        console.log(sideDataArray);
+        const randomPortraitOrder = [...portraitsList].sort(() => Math.random() - 0.5);
+        const sideDataArray: IDepthPortrait[] = randomPortraitOrder.map((name, i) => ({
+            portraitName: name,
+            color: colors[Math.round(Math.random() *  colors.length) %  colors.length],
+            depthExtrusion: 1
+        }));
         setPortrait(sideDataArray);
     }, []);
 
@@ -97,16 +65,16 @@ export const PortraitStage: React.FC<{ halfTurns: number }> = ({ halfTurns }) =>
 
         // Ensure portraitState has elements
         if (portraitState.length > 0) {
-            const saveSchema = (portraitData: IDepthPortrait) => {
-                if (portraitData) {
+            const saveSchema = (pd: IDepthPortrait) => {
+                if (pd) {
 
-                    schema[`${portraitData.name} Depth Extrusion`] = {
-                        value: portraitData.depthExtrusion ?? 1,
+                    schema[`${pd.portraitName} Depth Extrusion`] = {
+                        value: pd.depthExtrusion ?? 1,
                         min: 0,
                         max: 10,
                         step: 0.1,
                     };
-                    schema[`${portraitData.name} Color`] = portraitData.color ?? "pink";
+                    schema[`${pd.portraitName} Color`] = pd.color ?? "pink";
                 }
             }
             const frontPortraitData = portraitState[frontPortrait % portraitState.length];
@@ -125,19 +93,19 @@ export const PortraitStage: React.FC<{ halfTurns: number }> = ({ halfTurns }) =>
         if (portraitState.length > 0) {
             setPortrait(prevState => prevState.map((portrait, index) => {
                 const portraitIdx = index % portraitState.length;
-                const portraitData = portraitState[portraitIdx];
-                if (portraitData) {
+                const pd = portraitState[portraitIdx];
+                if (pd) {
 
                     return {
-                        ...portrait, depthExtrusion: controls[`${portraitData.name} Depth Extrusion`],
-                        color: controls[`${portraitData.name} Color`]
+                        ...portrait, depthExtrusion: controls[`${pd.portraitName} Depth Extrusion`],
+                        color: controls[`${pd.portraitName} Color`]
                     };
                 }
 
 
             }));
         }
-    }, [controls, frontPortrait, backPortrait, portraitState.length]);
+    }, [controls, frontPortrait, backPortrait, portraitState]);
 
     // Inside your component
     const buildPlane = useCallback((index: number, side: "front" | "back") => {
@@ -153,7 +121,7 @@ export const PortraitStage: React.FC<{ halfTurns: number }> = ({ halfTurns }) =>
                     position={stagePositions[sideIdx]} rotation={stageRotations[sideIdx]}
                     key={`depthbox-${index}`} bg={selectedPortrait.color} index={index} onClick={clickHandler} >
                     {clickedPortraits.includes(index) && <GlassGlobe innerGlobeRadius={2} />}
-                    <DepthPortrait {...selectedPortrait} portraitData={portraitData[selectedPortrait.name]} />
+                    <DepthPortrait {...selectedPortrait} />
                 </DepthBox>
             )
         );

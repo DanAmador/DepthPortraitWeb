@@ -9,18 +9,21 @@ export const usePortraitControls = (
 ) => {
     const [frontData, setFrontPortrait] = useState<IDepthPortrait>();
     const [backData, setBackPortrait] = useState<IDepthPortrait>();
+
+    const [portraitState, setPortrait] = useState<IDepthPortrait[]>([]);
+
     const controlSchema = useMemo(() => {
         const schema: Record<string, any> = {};
 
         const saveSchema = (portraitData: IDepthPortrait | undefined) => {
             if (portraitData) {
-                schema[`${portraitData.name} Depth Extrusion`] = {
+                schema[`${portraitData.portraitName} Depth Extrusion`] = {
                     value: portraitData.depthExtrusion ?? 1,
                     min: 0,
                     max: 10,
                     step: 0.1,
                 };
-                schema[`${portraitData.name} Color`] = portraitData.color ?? "pink";
+                schema[`${portraitData.portraitName} Color`] = portraitData.color ?? "pink";
             }
         };
 

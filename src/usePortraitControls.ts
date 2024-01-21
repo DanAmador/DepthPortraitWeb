@@ -10,7 +10,6 @@ export const usePortraitControls = (
     const [frontData, setFrontPortrait] = useState<IDepthPortrait>();
     const [backData, setBackPortrait] = useState<IDepthPortrait>();
 
-    const [portraitState, setPortrait] = useState<IDepthPortrait[]>([]);
 
     const controlSchema = useMemo(() => {
         const schema: Record<string, any> = {};

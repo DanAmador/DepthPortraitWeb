@@ -40,7 +40,7 @@ export const PortraitStage: React.FC<{ halfTurns: number }> = ({ halfTurns }) =>
 
     useEffect(() => {
         const randomPortraitOrder = [...portraitsList].sort(() => Math.random() - 0.5);
-        const sideDataArray: IDepthPortrait[] = randomPortraitOrder.map((name, i) => ({
+        const sideDataArray: IDepthPortrait[] = randomPortraitOrder.map((name) => ({
             portraitName: name,
             color: colors[Math.round(Math.random() *  colors.length) %  colors.length],
             depthExtrusion: 1

@@ -39,6 +39,6 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-        branch: pages  # The branch the action should deploy to.
+        branch: gh-pages  # The branch the action should deploy to.
         folder: dist      # The folder the action should deploy.
         clean: false       # Automatically remove deleted files from the deployment

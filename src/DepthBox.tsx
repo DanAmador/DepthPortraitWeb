@@ -70,7 +70,7 @@ export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children, po
       lightRef.current.target = meshRef.current;
     }
   }, [lightRef, meshRef]);
-  const clampedDepth = Math.max(depth, 0.1);
+  const clampedDepth = Math.max(depth, 0.2);
   return <mesh position={position} rotation={rotation}>
     <planeGeometry args={[3, 3, 3]} />
     <ambientLight color={0xffffff} intensity={0.5} />
@@ -89,7 +89,7 @@ export const DepthBox: React.FC<DepthBoxProps> = ({ bg = '#f0f0f0', children, po
             ref={lightRef}
             position={[Math.max(clampedDepth, 1), Math.max(1 - Math.sqrt(clampedDepth), 0), 0]} />
         </mesh>
-        <mesh castShadow receiveShadow ref={meshRef}   position={[0, 0,1-Math.sqrt(clampedDepth)]} >
+        <mesh castShadow receiveShadow ref={meshRef}   position={[0, 0,Math.max(-Math.sqrt(depth),0)]} >
           {children}
         </mesh>
       </group>

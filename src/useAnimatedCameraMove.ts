@@ -1,51 +1,67 @@
-// import { useFrame, useThree } from '@react-three/fiber';
-// import CameraControls from 'camera-controls';
-// import { MutableRefObject, useEffect } from 'react';
-// import { useSpring, SpringValue } from '@react-spring/core';
-// import * as THREE from 'three';
+import { useSpring } from '@react-spring/core';
+import { useFrame } from '@react-three/fiber';
+import { MutableRefObject, useState } from 'react';
+import * as THREE from 'three';
+import CameraControlsImpl from 'camera-controls';
 
-// type AnimatedCameraMoveProps = {
-//   cameraControlsRef: MutableRefObject<CameraControls | null>;
-// };
+export const useAnimatedCameraMove = (controls: MutableRefObject<CameraControlsImpl>) => {
+  const [isRunning, setIsRunning] = useState(false);
+  const [startPosition, setStartPosition] = useState<[number, number, number]>();
+  const [startTarget, setStartTarget] = useState<[number, number, number]>();
+  const [endPosition, setEndPosition] = useState<[number, number, number]>();
+  const [endTarget, setEndTarget] = useState<[number, number, number]>();
 
-// export const useAnimatedCameraMove = ({ cameraControlsRef }: AnimatedCameraMoveProps) => {
-//   const { camera } = useThree();
-//   const [spring, api] = useSpring(() => ({
-//     t: 0,
-//     config: { mass: 1, tension: 170, friction: 26 },
-//     reset: true,
-//   }));
+  const [spring, api] = useSpring(() => ({
+    t: 0,
+    config: { mass: 1, tension: 170, friction: 26 },
+    reset: true,
+  }));
 
-//   const endPosition = new THREE.Vector3();
-//   const startPosition = new THREE.Vector3();
-//   const lookAtPosition = new THREE.Vector3();
+  const runSpring = () => {
+    if (!isRunning) {
+      setIsRunning(true);
+      api.start({
+        from: { t: 0 },
+        to: { t: 1 },
+      });
+    }
+  };
 
-//   const runSpring = () => {
-//     api.start({ t: 0 });
-//     setTimeout(() => api.start({ t: 1 }), 10);
-//   };
+  const setVariables = (posB: [number, number, number] = [0, 2, 5], tgtB: [number, number, number] = [-1, 0, 0]) => {
+    console.log(controls)
+    if (controls?.current instanceof CameraControlsImpl) {
+      console.log(posB, tgtB);
+        const tempVector = new THREE.Vector3();
+      const posA = controls.current.getPosition(tempVector).toArray();
+      const tgtA = controls.current.getTarget(tempVector).toArray();
+      setStartPosition(posA);
+      setStartTarget(tgtA);
+      setEndPosition(posB);
+      setEndTarget(tgtB);
+      runSpring();
+    }
+  };
 
-//   const setVariables = (endArray = [0, 1, 0], lookAtArray = [0, 0, 0]) => {
-//     camera.getWorldPosition(startPosition);
-//     endPosition.set(...endArray);
-//     lookAtPosition.set(...lookAtArray);
-//     runSpring();
-//   };
+  useFrame(() => {
+    if (!isRunning || !controls.current) return;
 
-//   useFrame(() => {
-//     const t = spring.t.get();
-//     if (cameraControlsRef.current && t !== null) {
-//       const currentPosition = new THREE.Vector3().lerpVectors(startPosition, endPosition, t);
-//       cameraControlsRef.current.moveTo(currentPosition.x, currentPosition.y, currentPosition.z, false);
-//     }
-//   });
+    if (startPosition && startTarget && endPosition && endTarget) {
+      const t = spring.t.get();
+      void controls.current.lerpLookAt(
+        ...startPosition,
+        ...startTarget,
+        ...endPosition,
+        ...endTarget,
+        t,
+        true
+      );
 
-//   useEffect(() => {
-//     // Any necessary clean-up
-//     return () => {
-//       // Clean-up code here (if necessary)
-//     };
-//   }, []); // Add dependencies if there are any
+      // Optionally, stop the animation when t reaches 1
+      if (t === 1) {
+        setIsRunning(false);
+      }
+    }
+  });
 
-//   return { startMovingCamera: setVariables };
-// };
+  return { setVariables, isRunning, runSpring };
+};

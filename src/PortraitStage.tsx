@@ -1,11 +1,11 @@
-import { IDepthPortrait, DepthPortrait } from "./DepthPortrait";
+import { IDepthPortrait, DepthPortrait, IPortrait } from "./DepthPortrait";
 import { GlassGlobe } from "./GlassGlobe";
 import { useEffect, useMemo, useRef, useState } from "react";
 import DepthBox from "./DepthBox";
 import { useFrame } from "@react-three/fiber";
 
 import { useCallback } from 'react';
-import { useControls } from "leva";
+import { button, useControls } from "leva";
 import { portraitsList } from './portraitsList';
 
 
@@ -59,6 +59,21 @@ export const PortraitStage: React.FC<{ halfTurns: number }> = ({ halfTurns }) =>
         }
     });
 
+    const saveControlSchema = () => {
+        const portraitDictionary = portraitState.reduce((acc: Record<string, IPortrait>, portrait: IPortrait) => {
+            const { portraitName} = portrait;
+            if(portraitName){
+                acc[portraitName] = portrait;
+
+            }else{
+                console.log("No portrait name found");
+            }
+            return acc;
+          }, {});
+        const stringified = JSON.stringify(portraitDictionary, null, 2);
+        // Implement your save functionality
+        console.log(`export const portraitState = ${stringified}`);
+      };
     // Create a control schema for the current front and back portraits
     const controlSchema = useMemo(() => {
         const schema = {};
@@ -83,7 +98,9 @@ export const PortraitStage: React.FC<{ halfTurns: number }> = ({ halfTurns }) =>
             saveSchema(backPortraitData);
         }
 
-        return schema;
+        return {...schema,  
+            saveButton: button(saveControlSchema, { label: 'Save Settings' }),
+    };
     }, [frontPortrait, backPortrait, portraitState]);
 
     const controls = useControls(controlSchema, [frontPortrait, backPortrait]);

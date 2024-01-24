@@ -3,7 +3,7 @@ import { useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { ShaderMaterial } from 'three';
 export interface IPortrait {
-    portraitName: string;
+    portraitName?: string;
     color?: string;
     depth?: string;
   }

@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "react";
 import { PortraitStage } from "./PortraitStage";
 import CameraControlsImpl from 'camera-controls';
 // import { useControls, button } from "leva";
-import { useAnimatedCameraMove } from "./useAnimatedCameraMove";
 import AutoMoveCamera from "./withAutoMoveCamera";
 // import * as THREE from 'three'
 
@@ -29,14 +28,13 @@ function Scene() {
   const [halfTurns, setHalfTurns] = useState(0);
   const [realHalfTurns, setRealHalfTurns] = useState(0);
   useFrame(() => {
-    if (cameraControlsRef.current) {
+    if (!cameraControlsRef.current) return 
 
       const offset = Math.PI / 2
       // Calculate the number of half turns
-      setRealHalfTurns((offset + cameraControlsRef.current?.azimuthAngle ?? 0) / Math.PI);
+      setRealHalfTurns((offset + cameraControlsRef.current.azimuthAngle) / Math.PI);
       setHalfTurns(Math.abs(Math.floor(Math.abs(realHalfTurns))));
-    }
-  });
+    });
 
   useEffect(() => {
     if (lumaSplatRef.current) {
@@ -48,12 +46,7 @@ function Scene() {
       // });
     }
   }, [gl, scene]);
-  useEffect(() => {
-    window.setLerp = setVariables;
-    window.runLerp = runSpring;
-  }, [cameraControlsRef])
-  
-  const { setVariables, runSpring } = useAnimatedCameraMove(cameraControlsRef);
+
   return <>
     <AdaptiveDpr pixelated />
     <CameraControls makeDefault ref={cameraControlsRef} />

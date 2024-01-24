@@ -34,7 +34,7 @@ export const useAnimatedCameraMove = (
       api.start({
         from: { t: 0 },
         to: { t: 1 },
-        config: { duration: animationConfig.duration* 1000 },
+        config: { duration: animationConfig.duration * 1000 },
         reset: true,
       });
     }
@@ -49,7 +49,7 @@ export const useAnimatedCameraMove = (
       setStartTarget(tgtA);
       setEndPosition(posB);
       setEndTarget(tgtB);
-    setLerpDuration(t);
+      setLerpDuration(t);
       // Update spring configuration dynamically
 
 
@@ -75,17 +75,17 @@ export const useAnimatedCameraMove = (
       if (t === 1) {
         setIsRunning(false);
         //   api.start({
-    //         config: {
-    //             ...springConfig,
-    //             duration: lerpDuration, // Update duration dynamically based on the new 't' value
-    //         },
-    //         from: { t: 0 },
-    //         to: { t: lerpDuration },
-    //         reset: true,
-    //     });  
-    }
+        //         config: {
+        //             ...springConfig,
+        //             duration: lerpDuration, // Update duration dynamically based on the new 't' value
+        //         },
+        //         from: { t: 0 },
+        //         to: { t: lerpDuration },
+        //         reset: true,
+        //     });  
+      }
     }
   });
 
-  return { isRunning, prepareLerp , runSpring };
+  return { isRunning, prepareLerp, runSpring };
 };

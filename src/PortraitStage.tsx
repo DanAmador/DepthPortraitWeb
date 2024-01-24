@@ -99,7 +99,7 @@ export const PortraitStage: React.FC<{ halfTurns: number }> = ({ halfTurns }) =>
         }
 
         return {...schema,  
-            saveButton: button(saveControlSchema, { label: 'Save Settings' }),
+            save: button(saveControlSchema),
     };
     }, [frontPortrait, backPortrait, portraitState]);
 

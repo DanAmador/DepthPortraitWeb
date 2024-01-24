@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 
-const useCameraTurns = (azimuth) => {
+const useCameraTurns = (azimuth: number) => {
     const [halfTurns, setHalfTurns] = useState(0);
     const [realHalfTurns, setRealHalfTurns] = useState(0);
     useFrame(() => {

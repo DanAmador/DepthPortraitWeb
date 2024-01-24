@@ -44,12 +44,13 @@ export const useAnimatedCameraMove = (
     if (controls?.current) {
       const tempVector = new THREE.Vector3();
       const posA = controls.current.getPosition(tempVector).toArray();
-      const tgtA = controls.current.getTarget(tempVector).toArray();
+    const tgtA = controls.current.getTarget(tempVector).toArray();
       setStartPosition(posA);
       setStartTarget(tgtA);
       setEndPosition(posB);
       setEndTarget(tgtB);
       setLerpDuration(t);
+      console.log(lerpDuration)
       // Update spring configuration dynamically
 
 

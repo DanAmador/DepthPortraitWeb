@@ -1,4 +1,4 @@
-import React, { useEffect, useState, MutableRefObject, FC } from 'react';
+import { useEffect, useState, MutableRefObject, FC } from 'react';
 import { useFrame } from '@react-three/fiber';
 import CameraControlsImpl from 'camera-controls';
 import { TimedAnimationConfig, useAnimatedCameraMove } from './useAnimatedCameraMove';
@@ -43,7 +43,7 @@ const AutoMoveCamera: FC<AutoMoveCameraProps> = ({
     };
   }, [controls]);
 
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     if (!controls.current) return;
     if (isUserActive) {
       if (Date.now() - lastUserActiveTimestamp > secondsBeforeMove * 1000 && !isRunning) {
@@ -58,7 +58,7 @@ const AutoMoveCamera: FC<AutoMoveCameraProps> = ({
         // Rotate the camera around the origin if in default position
         const currentAzimuth = controls.current.azimuthAngle;
 
-        void controls.current?.rotateAzimuthTo(currentAzimuth + (delta * .5), false);
+        void controls.current?.rotateAzimuthTo(currentAzimuth + (delta*.7), false);
       }
     }
   });
